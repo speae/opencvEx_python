@@ -15,7 +15,7 @@ import struct
 
 from rplidar import RPLidar
 
-lidar = RPLidar('/dev/ttyUSB0')
+lidar = RPLidar('COM3')
 
 info = lidar.get_info()
 print(info)
