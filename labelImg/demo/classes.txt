@@ -1,0 +1,7 @@
+person
+chair
+suitcase
+cart
+trash bag
+info_vert
+info_hori

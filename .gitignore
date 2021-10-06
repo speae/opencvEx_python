@@ -1,0 +1,8 @@
+.ipynb_checkpoints
+.vs
+.vscode
+.idea
+*.zip
+.iml
+.xml
+

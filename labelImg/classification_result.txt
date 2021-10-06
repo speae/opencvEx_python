@@ -1,0 +1,7 @@
+person 1
+chair 0
+suitcase 1
+cart 1
+trash_bag 0
+info_vert 0
+info_hori 1
