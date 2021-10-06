@@ -3,7 +3,8 @@
 from rplidar import RPLidar
 import time
 
-PORT_NAME = '/dev/ttyUSB0'
+# PORT_NAME = '/dev/ttyUSB0'
+PORT_NAME = 'COM3'
 
 def run():
     '''Main function'''

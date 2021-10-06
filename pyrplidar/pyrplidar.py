@@ -15,7 +15,7 @@ class PyRPlidar:
 
     
 
-    def connect(self, port="/dev/ttyUSB0", baudrate=115200, timeout=3):
+    def connect(self, port="COM3", baudrate=115200, timeout=3):
         self.lidar_serial = PyRPlidarSerial()
         self.lidar_serial.open(port, baudrate, timeout)
         print("PyRPlidar Info : device is connected")
@@ -40,7 +40,7 @@ class PyRPlidar:
             raise PyRPlidarConnectionError("PyRPlidar Error : device is not connected")
         
         discriptor = PyRPlidarResponse(self.lidar_serial.receive_data(RPLIDAR_DESCRIPTOR_LEN))
-        
+
         if discriptor.sync_byte1 != RPLIDAR_SYNC_BYTE1[0] or discriptor.sync_byte2 != RPLIDAR_SYNC_BYTE2[0]:
             raise PyRPlidarProtocolError("PyRPlidar Error : sync bytes are mismatched", hex(discriptor.sync_byte1), hex(discriptor.sync_byte2))
         return discriptor

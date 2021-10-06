@@ -8,8 +8,8 @@ import numpy as np
 from rplidar import RPLidar
 
 
-PORT_NAME = '/dev/ttyUSB0'
-
+# PORT_NAME = '/dev/ttyUSB0'
+PORT_NAME = 'COM3'
 
 def run(path):
     '''Main function'''

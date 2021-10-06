@@ -13,24 +13,24 @@ import serial
 import struct
 
 
-from rplidar import RPLidar
-
-lidar = RPLidar('COM3')
-
-info = lidar.get_info()
-print(info)
-
-health = lidar.get_health()
-print(health)
-
-for i, scan in enumerate(lidar.iter_scans()):
-    print('%d: Got %d measurments' % (i, len(scan)))
-    if i > 10:
-        break
-
-lidar.stop()
-lidar.stop_motor()
-lidar.disconnect()
+# from rplidar import RPLidar
+#
+# lidar = RPLidar('COM3')
+#
+# info = lidar.get_info()
+# print(info)
+#
+# health = lidar.get_health()
+# print(health)
+#
+# for i, scan in enumerate(lidar.iter_scans()):
+#     print('%d: Got %d measurments' % (i, len(scan)))
+#     if i > 10:
+#         break
+#
+# lidar.stop()
+# lidar.stop_motor()
+# lidar.disconnect()
 
 SYNC_BYTE = b'\xA5'
 SYNC_BYTE2 = b'\x5A'
@@ -76,6 +76,7 @@ def _process_scan(raw):
     '''Processes input raw data and returns measurment data'''
     new_scan = bool(_b2i(raw[0]) & 0b1)
     inversed_new_scan = bool((_b2i(raw[0]) >> 1) & 0b1)
+    print("byte raw[0] will be divided 2*2 : ", raw[0])
     quality = _b2i(raw[0]) >> 2
     if new_scan == inversed_new_scan:
         raise RPLidarException('New scan flags mismatch')
@@ -188,6 +189,7 @@ class RPLidar(object):
         descriptor = self._serial_port.read(DESCRIPTOR_LEN)
         self.logger.debug('Recieved descriptor: %s', descriptor)
         if len(descriptor) != DESCRIPTOR_LEN:
+            print("current DESCRIPTOR_LEN : ", len(descriptor))
             raise RPLidarException('Descriptor length mismatch')
         elif not descriptor.startswith(SYNC_BYTE + SYNC_BYTE2):
             raise RPLidarException('Incorrect descriptor starting bytes')
@@ -213,6 +215,7 @@ class RPLidar(object):
         '''
         self._send_cmd(GET_INFO_BYTE)
         dsize, is_single, dtype = self._read_descriptor()
+        print("dsize = ", dsize)
         if dsize != INFO_LEN:
             raise RPLidarException('Wrong get_info reply length')
         if not is_single:
@@ -325,6 +328,7 @@ class RPLidar(object):
             raise RPLidarException('Wrong response data type')
         while True:
             raw = self._read_response(dsize)
+            print("measurments raw : ", raw)
             self.logger.debug('Recieved scan response: %s' % raw)
             if max_buf_meas:
                 data_in_buf = self._serial_port.in_waiting
