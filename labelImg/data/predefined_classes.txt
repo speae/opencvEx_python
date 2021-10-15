@@ -1,7 +1,0 @@
-person
-chair
-suitcase
-cart
-trash_bag
-info_vert
-info_hori
